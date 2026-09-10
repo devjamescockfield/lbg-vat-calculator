@@ -37,13 +37,13 @@ pipeline {
         stage('Analyze Image') {
             steps {
                 script {
-                    sh '''
-                        if ! command -v dive &> /dev/null; then
-                            wget https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_amd64.deb
-                            apt install ./dive_0.13.1_linux_amd64.deb -y || dpkg -i ./dive_0.13.1_linux_amd64.deb
-                        fi
-                    '''
-                    sh "CI=true dive ${registry}:${env.BUILD_NUMBER} --ci-config .dive-ci.yml"
+                    sh """
+                        docker run --rm \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            -v \$(pwd)/.dive-ci.yml:/.dive-ci.yml \
+                            wagoodman/dive:latest ${registry}:${env.BUILD_NUMBER} \
+                            --ci --ci-config /.dive-ci.yml
+                    """
                 }
             }
         }
