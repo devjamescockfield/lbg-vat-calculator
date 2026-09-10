@@ -21,7 +21,7 @@ pipeline {
                     dockerImage = docker.build(registry) 
                 } 
             }
-        }
+        } 
 
         stage('Analyze Image') {
             steps {
@@ -46,7 +46,7 @@ pipeline {
                     } 
                 } 
             } 
-        }
+        } 
         
         stage('Clean Up') { 
             steps { 
