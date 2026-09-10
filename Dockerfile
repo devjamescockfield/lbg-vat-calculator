@@ -1,5 +1,5 @@
 # stage 1 – building the webpack
-FROM node:19-alpine AS build
+FROM node:latest AS build
 WORKDIR /app
 COPY package*.json .
 RUN npm install
