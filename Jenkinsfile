@@ -21,18 +21,7 @@ pipeline {
                     dockerImage = docker.build(registry) 
                 } 
             }
-        } 
-        
-        stage('Push Image') { 
-            steps { 
-                script { 
-                    docker.withRegistry("", registryCredentials) { 
-                        dockerImage.push("${env.BUILD_NUMBER}") 
-                        dockerImage.push("latest") 
-                    } 
-                } 
-            } 
-        } 
+        }
 
         stage('Analyze Image') {
             steps {
@@ -46,6 +35,17 @@ pipeline {
                     """
                 }
             }
+        }
+        
+        stage('Push Image') { 
+            steps { 
+                script { 
+                    docker.withRegistry("", registryCredentials) { 
+                        dockerImage.push("${env.BUILD_NUMBER}") 
+                        dockerImage.push("latest") 
+                    } 
+                } 
+            } 
         }
         
         stage('Clean Up') { 
