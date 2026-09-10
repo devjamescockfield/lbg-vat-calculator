@@ -29,9 +29,8 @@ pipeline {
                     sh """
                         docker run --rm \
                             -v /var/run/docker.sock:/var/run/docker.sock \
-                            -v \$(pwd)/.dive-ci.yml:/.dive-ci.yml \
-                            wagoodman/dive:latest ${registry}:latest \
-                            --ci --ci-config /.dive-ci.yml
+                            anchore/grype:latest ${registry}:latest \
+                            --fail-on high
                     """
                 }
             }
